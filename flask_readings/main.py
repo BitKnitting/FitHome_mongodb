@@ -12,6 +12,8 @@ def index():
     now = datetime.now()
 
 # Add a monitor reading to the db
+# The reading goes into the aggregated collection.
+# So far, we have added training on a microwave.
 @main.route('/monitor', methods=['POST'])
 def monitor():
     global MICROWAVE_ON
@@ -20,14 +22,16 @@ def monitor():
         try:
             now = datetime.now()
             timestamp_str = str(datetime.timestamp(now))
-            monitor_collection = mongo.db.monitor
+            monitor_collection = mongo.db.aggregated
             # E.g.: Reading came in from monitor.
             reading = {"timestamp": timestamp_str,
                        "Pa": req['Pa'], "I": req['I'], "Pr": req['Pr'], "microwave": MICROWAVE_ON, }
             monitor_collection.insert(reading)
         except KeyError as error:
+            print(f'The key {error} does not exist.', 400)
             return (f'The key {error} does not exist.', 400)
         except Exception as error:
+            print(f'An error occurred: {error}', 400)
             return (f'An error occurred: {error}', 400)
 
         return 'Added a Reading!', 200

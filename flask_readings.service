@@ -1,12 +1,12 @@
 [Unit]
-Description=Collect and send power readings.
+Description=Get monitor readings and put into mongodb
 # Don't start the service until the network is up and running
 After=network.target
 
 [Service]
 Type=simple
 EnvironmentFile=/home/pi/projects/PlugE/env_variables
-ExecStart=/usr/bin/python3 /home/pi/projects/PlugE/collect_readings_task.py
+ExecStart=/home/pi/projects/FitHome_mongodb/venv/bin/python3 /home/pi/projects/PlugE/collect_readings_task.py
 Restart=on-failure
 User=pi
 
