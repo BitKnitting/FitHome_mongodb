@@ -1,0 +1,39 @@
+# Get the values in a mongodb collection and save as a zipped pickle file.  Zipped pickle
+# files are easy to read in Pandas.
+# Input arguments:
+# - db : name of the mongodb db.
+# - collection: name of the collection within the db.
+# - name: name of the zipped pickle file, e.g.: <name>,pkl.zip
+#
+# We start by stating what interpreter we want to use
+#!/bin/bash
+#
+# Ask for the variables we need.
+echo "****************************"
+echo "Please start within the venv"
+echo "****************************"
+read -p "Enter the db name: " DB
+read -p "Enter the collection name: " COLLECTION
+read -p "Enter the output filename: " FILENAME
+echo  "The db name is $DB"
+echo "The collection name is $COLLECTION"
+echo "The filename is $FILENAME"
+# Let the user cancel out if one of the variables was typed in incorrectly.
+read -p "Continue (y or n)? " CONTINUE
+if [ "$CONTINUE" = "Y" ] || [ "$CONTINUE" = "y" ]; then
+    echo "Getting readings out of mongodb into a json file..."
+	# Get the readings out of mongo and put them into a json file
+	mongoexport --collection=$COLLECTION --db=$DB --out=$FILENAME.json
+	# Pickle the file
+	echo "Pickling the json file ..."
+    python3 json_to_pickle.py $FILENAME
+	# Zip the file
+	echo "Zipping the pickled file..."
+	zip $FILENAME.pkl.zip $FILENAME.pkl
+	echo "Deleting unused files..."
+	rm $FILENAME.pkl
+	rm $FILENAME.json
+
+else
+	echo "bye!"
+fi
