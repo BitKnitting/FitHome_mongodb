@@ -10,10 +10,28 @@ MICROWAVE_ON = 0
 @main.route('/')
 def index():
     now = datetime.now()
-
+#
+# The Microwave PlugE device is sending the state of the microwave
+#
+@main.route('/microwave', methods=['POST'])
+def microwave():
+    global MICROWAVE_ON
+    if request.is_json:
+        req = request.get_json()
+        try:
+            MICROWAVE_ON = req['device_on']
+            print('microwave is: {}'.format(MICROWAVE_ON))
+            return 'Added microwave info!', 200
+        except KeyError as error:
+            print(f'The key {error} does not exist.', 400)
+            return (f'The key {error} does not exist.', 400)
+    else:
+        return "Request was not JSON", 400
+#
 # Add a monitor reading to the db
 # The reading goes into the aggregated collection.
 # So far, we have added training on a microwave.
+#
 @main.route('/monitor', methods=['POST'])
 def monitor():
     global MICROWAVE_ON
