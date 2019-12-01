@@ -32,7 +32,7 @@ if [ "$CONTINUE" = "Y" ] || [ "$CONTINUE" = "y" ]; then
 	zip $FILENAME.pkl.zip $FILENAME.pkl
 	echo "Deleting unused files..."
 	rm $FILENAME.pkl
-	#rm $FILENAME.json
+	rm $FILENAME.json
 
 else
 	echo "bye!"
