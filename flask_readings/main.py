@@ -40,7 +40,9 @@ def monitor():
         try:
             now = datetime.now()
             timestamp_str = str(datetime.timestamp(now))
+            # readings are going into the aggregated collection.
             monitor_collection = mongo.db.aggregated
+            # Right now hard coded to microwave...will expand as learn more...
             # E.g.: Reading came in from monitor.
             reading = {"timestamp": timestamp_str,
                        "Pa": req['Pa'], "I": req['I'], "Pr": req['Pr'], "microwave": MICROWAVE_ON, }
