@@ -1,3 +1,4 @@
+# See https://youtu.be/3ZS7LEH_XBg?t=290
 from flask import Flask
 
 from .extensions import mongo
