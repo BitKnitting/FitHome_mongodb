@@ -14,25 +14,24 @@ echo "Please start within the venv"
 echo "****************************"
 read -p "Enter the db name: " DB
 read -p "Enter the collection name: " COLLECTION
-read -p "Enter the output filename: " FILENAME
 echo  "The db name is $DB"
 echo "The collection name is $COLLECTION"
-echo "The filename is $FILENAME"
 # Let the user cancel out if one of the variables was typed in incorrectly.
 read -p "Continue (y or n)? " CONTINUE
 if [ "$CONTINUE" = "Y" ] || [ "$CONTINUE" = "y" ]; then
     echo "Getting readings out of mongodb into a json file..."
 	# Get the readings out of mongo and put them into a json file
-	mongoexport --collection=$COLLECTION --db=$DB --out=$FILENAME.json
+	mongoexport --collection=$COLLECTION --db=$DB --out=$COLLECTION.json
 	# Pickle the file
 	echo "Pickling the json file ..."
-    python3 json_to_pickle.py $FILENAME
+    python3 json_to_pickle.py $COLLECTION
 	# Zip the file
 	echo "Zipping the pickled file..."
-	zip $FILENAME.pkl.zip $FILENAME.pkl
+	zip $COLLECTION.pkl.zip $COLLECTION.pkl
 	echo "Deleting unused files..."
-	rm $FILENAME.pkl
-	rm $FILENAME.json
+	rm $COLLECTION.pkl
+	rm $COLLECTION.json
+	echo "Created file $COLLECTION.pkl.zip."
 
 else
 	echo "bye!"
