@@ -4,7 +4,7 @@ Flask-PyMongo==2.3.0
 itsdangerous==1.1.0
 Jinja2==2.10.3
 MarkupSafe==1.1.1
-numpy==1.17.4
+numpy==1.22.0
 pandas==0.25.3
 pkg-resources==0.0.0
 pymongo==3.4.0
